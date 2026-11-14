@@ -350,7 +350,7 @@ int main()
                 break;
 
             case 4:
-                printf("Update parcel selected\n");
+                updateParcelStatus(parcels,parcelcount);
                 break;
 
             case 5:
