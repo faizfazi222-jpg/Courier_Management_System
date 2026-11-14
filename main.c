@@ -197,6 +197,47 @@ void updateParcelStatus(struct Parcel parcels[], int parcelcount)
     }
 }
 
+void trackParcel(struct Parcel parcels[], int parcelcount)
+{
+    int search_id;
+    int found = 0;
+
+    printf("\n------ Track Parcel ------\n");
+    printf("Enter Parcel ID: ");
+    scanf("%d", &search_id);
+
+    for(int i = 0; i < parcelcount; i++)
+    {
+        if(parcels[i].parcel_id == search_id)
+        {
+            found = 1;
+
+            printf("\nParcel Found!\n");
+            printf("Parcel ID: %d\n", parcels[i].parcel_id);
+
+            printf("Current Delivery Status: ");
+
+            if(parcels[i].status == 1)
+                printf("Booked\n");
+            else if(parcels[i].status == 2)
+                printf("In Transit\n");
+            else if(parcels[i].status == 3)
+                printf("At Destination\n");
+            else if(parcels[i].status == 4)
+                printf("Delivered\n");
+            else if(parcels[i].status == 5)
+                printf("Cancelled\n");
+
+            break;
+        }
+    }
+
+    if(found == 0)
+    {
+        printf("\nParcel Not Found!\n");
+    }
+}
+
 int main()
 {
     int choice;
@@ -230,7 +271,7 @@ int main()
                 break;
 
             case 2:
-                printf("Track parcel selected\n");
+                trackParcel(parcels, parcelcount);
                 break;
 
             case 3:
