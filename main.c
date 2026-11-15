@@ -309,6 +309,107 @@ void cancelParcel(struct Parcel parcels[], int parcelcount)
     }
 }
 
+void calculateDeliveryCharges(struct Parcel parcels[], int parcelcount)
+{
+    int search_id;
+    int found = 0;
+    float charges;
+
+    printf("\n------ Calculate Delivery Charges ------\n");
+    printf("Enter Parcel ID: ");
+    scanf("%d", &search_id);
+
+    for(int i = 0; i < parcelcount; i++)
+    {
+        if(parcels[i].parcel_id == search_id)
+        {
+            found = 1;
+
+            printf("\nParcel Found!\n");
+            printf("Parcel ID: %d\n", parcels[i].parcel_id);
+            printf("Weight: %.2f kg\n", parcels[i].weight);
+
+            if(parcels[i].deliverytype == 1)
+            {
+                charges = parcels[i].weight * 100;
+                printf("Delivery Type: Normal\n");
+            }
+            else if(parcels[i].deliverytype == 2)
+            {
+                charges = parcels[i].weight * 200;
+                printf("Delivery Type: Express\n");
+            }
+
+            printf("Delivery Charges: Rs. %.2f\n", charges);
+
+            break;
+        }
+    }
+
+    if(found == 0)
+    {
+        printf("\nParcel Not Found!\n");
+    }
+}
+
+void generateBill(struct Parcel parcels[], int parcelcount)
+{
+    int search_id;
+    int found = 0;
+    float charges;
+
+    printf("\n========== GENERATE BILL ==========\n");
+    printf("Enter Parcel ID: ");
+    scanf("%d", &search_id);
+
+    for(int i = 0; i < parcelcount; i++)
+    {
+        if(parcels[i].parcel_id == search_id)
+        {
+            found = 1;
+
+            if(parcels[i].deliverytype == 1)
+            {
+                charges = parcels[i].weight * 100;
+            }
+            else if(parcels[i].deliverytype == 2)
+            {
+                charges = parcels[i].weight * 200;
+            }
+
+            printf("\n=========================================\n");
+            printf("          COURIER PARCEL BILL\n");
+            printf("=========================================\n");
+
+            printf("Parcel ID: %d\n", parcels[i].parcel_id);
+            printf("Sender Name: %s\n", parcels[i].sendername);
+            printf("Receiver Name: %s\n", parcels[i].receivername);
+            printf("Phone Number: %s\n", parcels[i].phone);
+            printf("Destination: %s\n", parcels[i].destination);
+
+            printf("\nWeight: %.2f kg\n", parcels[i].weight);
+
+            if(parcels[i].deliverytype == 1)
+                printf("Delivery Type: Normal\n");
+            else if(parcels[i].deliverytype == 2)
+                printf("Delivery Type: Express\n");
+
+            printf("Delivery Charges: Rs. %.2f\n", charges);
+
+            printf("=========================================\n");
+            printf("TOTAL BILL: Rs. %.2f\n", charges);
+            printf("=========================================\n");
+
+            break;
+        }
+    }
+
+    if(found == 0)
+    {
+        printf("\nParcel Not Found!\n");
+    }
+}
+
 int main()
 {
     int choice;
@@ -362,11 +463,11 @@ int main()
                 break;
 
             case 7:
-                printf("Calculate delivery charges selected\n");
+                calculateDeliveryCharges(parcels, parcelcount);
                 break;
 
             case 8:
-                printf("Generate bill selected\n");
+                generateBill(parcels, parcelcount);
                 break;
 
             case 9:
