@@ -410,12 +410,76 @@ void generateBill(struct Parcel parcels[], int parcelcount)
     }
 }
 
+void saveparcels(struct Parcel parcels[], int parcelcount)
+{
+    FILE *fp;
+
+    fp = fopen("parcels.txt", "w");
+
+    if (fp == NULL)
+    {
+        printf("\nFile could not be opened!\n");
+        return;
+    }
+
+    for (int i = 0; i < parcelcount; i++)
+    {
+        fprintf(fp, "%d|%s|%s|%s|%s|%f|%d|%d\n",
+                parcels[i].parcel_id,
+                parcels[i].sendername,
+                parcels[i].receivername,
+                parcels[i].phone,
+                parcels[i].destination,
+                parcels[i].weight,
+                parcels[i].deliverytype,
+                parcels[i].status);
+    }
+
+    fclose(fp);
+
+    printf("\nParcel Data Saved Successfully!\n");
+}
+
+void loadparcels(struct Parcel parcels[], int *parcelcount)
+{
+    FILE *fp;
+
+    fp = fopen("parcels.txt", "r");
+
+    if (fp == NULL)
+    {
+        printf("\nNo previous parcel records found.\n");
+        return;
+    }
+
+    *parcelcount = 0;
+
+    while (*parcelcount < 100 &&
+           fscanf(fp, "%d|%49[^|]|%49[^|]|%19[^|]|%49[^|]|%f|%d|%d",
+                  &parcels[*parcelcount].parcel_id,
+                  parcels[*parcelcount].sendername,
+                  parcels[*parcelcount].receivername,
+                  parcels[*parcelcount].phone,
+                  parcels[*parcelcount].destination,
+                  &parcels[*parcelcount].weight,
+                  &parcels[*parcelcount].deliverytype,
+                  &parcels[*parcelcount].status) == 8)
+    {
+        (*parcelcount)++;
+    }
+
+    fclose(fp);
+
+    printf("\nParcel Records Loaded Successfully!\n");
+}
+
 int main()
 {
-    int choice;
 
     struct Parcel parcels[100];
     int parcelcount = 0;
+    int choice;
+    loadparcels(parcels,&parcelcount);
 
     do
     {
@@ -440,6 +504,7 @@ int main()
         {
             case 1:
                 addparcel(parcels, &parcelcount);
+                saveparcels(parcels,parcelcount);
                 break;
 
             case 2:
@@ -452,10 +517,12 @@ int main()
 
             case 4:
                 updateParcelStatus(parcels,parcelcount);
+                saveparcels(parcels,parcelcount);
                 break;
 
             case 5:
                 cancelParcel(parcels, parcelcount);
+                saveparcels(parcels,parcelcount);
                 break;
 
             case 6:
