@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 struct Parcel
 {
@@ -26,6 +27,12 @@ void addparcel(struct Parcel parcels[], int *parcelcount)
     printf("Enter Parcel ID: ");
     scanf("%d", &new_id);
 
+    if(new_id <= 0)
+    {
+        printf("\nInvalid Input! ID must be greater than zero \n");
+        return;
+    }
+
     for(int i = 0; i < *parcelcount; i++)
     {
         if(parcels[i].parcel_id == new_id)
@@ -46,11 +53,33 @@ void addparcel(struct Parcel parcels[], int *parcelcount)
     printf("Enter Phone Number: ");
     scanf("%19s", parcels[*parcelcount].phone);
 
+    if(strlen(parcels[*parcelcount].phone) < 10)
+    {
+        printf("\nInvalid Input! Enter at least 10 digits.\n");
+        return;
+    }
+
+    for(int i = 0; parcels[*parcelcount].phone[i] != '\0'; i++)
+    {
+        if(parcels[*parcelcount].phone[i] < '0' ||
+       parcels[*parcelcount].phone[i] > '9')
+       {
+        printf("\nInvalid Input! Only digits are allowed.\n");
+        return;
+       }
+    }
+
     printf("Enter Destination: ");
     scanf(" %49[^\n]", parcels[*parcelcount].destination);
 
     printf("Enter Weight in kg: ");
     scanf("%f", &parcels[*parcelcount].weight);
+
+    if(parcels[*parcelcount].weight <= 0)
+    {
+        printf("\nInvalid Input! Weight must be greater than zero \n");
+        return;
+    }
 
     printf("Enter Delivery Type (1 for Normal, 2 for Express): ");
     scanf("%d", &parcels[*parcelcount].deliverytype);
@@ -113,6 +142,12 @@ void searchparcel(struct Parcel parcels[], int parcelcount)
     printf("Enter Parcel ID: ");
     scanf("%d", &search_id);
 
+    if(search_id <= 0)
+    {
+        printf("\nInvalid Input! Enter a positive ID.\n");
+        return;
+    }
+
     for(int i = 0; i < parcelcount; i++)
     {
         if(parcels[i].parcel_id == search_id)
@@ -144,6 +179,12 @@ void updateParcelStatus(struct Parcel parcels[], int parcelcount)
     printf("\n------ Update Parcel Status ------\n");
     printf("Enter Parcel ID: ");
     scanf("%d", &search_id);
+
+    if(search_id <= 0)
+    {
+        printf("\nInvalid Input! Enter a positive ID.\n");
+        return;
+    }
 
     for(int i = 0; i < parcelcount; i++)
     {
@@ -206,6 +247,12 @@ void trackParcel(struct Parcel parcels[], int parcelcount)
     printf("Enter Parcel ID: ");
     scanf("%d", &search_id);
 
+    if(search_id <= 0)
+    {
+        printf("\nInvalid Input! Enter a positive ID.\n");
+        return;
+    }
+
     for(int i = 0; i < parcelcount; i++)
     {
         if(parcels[i].parcel_id == search_id)
@@ -247,6 +294,12 @@ void cancelParcel(struct Parcel parcels[], int parcelcount)
     printf("\n------ Cancel Parcel ------\n");
     printf("Enter Parcel ID: ");
     scanf("%d", &search_id);
+
+    if(search_id <= 0)
+    {
+        printf("\nInvalid Input! Enter a positive ID.\n");
+        return;
+    }
 
     for(int i = 0; i < parcelcount; i++)
     {
@@ -319,6 +372,12 @@ void calculateDeliveryCharges(struct Parcel parcels[], int parcelcount)
     printf("Enter Parcel ID: ");
     scanf("%d", &search_id);
 
+    if(search_id <= 0)
+    {
+        printf("\nInvalid Input! Enter a positive ID.\n");
+        return;
+    }
+
     for(int i = 0; i < parcelcount; i++)
     {
         if(parcels[i].parcel_id == search_id)
@@ -361,6 +420,12 @@ void generateBill(struct Parcel parcels[], int parcelcount)
     printf("\n========== GENERATE BILL ==========\n");
     printf("Enter Parcel ID: ");
     scanf("%d", &search_id);
+
+    if(search_id <= 0)
+    {
+        printf("\nInvalid Input! Enter a positive ID.\n");
+        return;
+    }
 
     for(int i = 0; i < parcelcount; i++)
     {
@@ -499,6 +564,12 @@ int main()
 
         printf("\nEnter your choice: ");
         scanf("%d", &choice);
+
+        if(choice < 1 || choice > 9)
+        {
+            printf("\nInvalid Choice! Please Enter a Number Between 1 to 9\n");
+            continue;
+        }
 
         switch(choice)
         {
